@@ -86,8 +86,8 @@ class App extends Component {
     this.setState({ selectedPerson });
   };
 
-  onPageChange = ({ selectedPage }) => {
-    this.setState({ currentPage: selectedPage });
+  onPageChange = ({ selected }) => {
+    this.setState({ currentPage: selected });
   };
 
   render() {

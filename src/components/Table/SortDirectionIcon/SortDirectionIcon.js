@@ -1,13 +1,13 @@
 import React from 'react';
 
 export default ({ sortDirection }) => {
-  if (sortDirection === 'asc') {
+  if (sortDirection === 'desc') {
     return (
       <svg
         width="1em"
         height="1em"
         viewBox="0 0 16 16"
-        className="bi bi-arrow-down"
+        className="bi bi-arrow-up"
         fill="currentColor"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -18,13 +18,13 @@ export default ({ sortDirection }) => {
         <path fillRule="evenodd" d="M8 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z" />
       </svg>
     );
-  } else {
+  } else if (sortDirection === 'asc') {
     return (
       <svg
         width="1em"
         height="1em"
         viewBox="0 0 16 16"
-        className="bi bi-arrow-up"
+        className="bi bi-arrow-down"
         fill="currentColor"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -35,5 +35,7 @@ export default ({ sortDirection }) => {
         />
       </svg>
     );
+  } else {
+    return null;
   }
 };

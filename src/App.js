@@ -12,8 +12,8 @@ class App extends Component {
     isModeSelected: false,
     isLoading: false,
     data: [],
-    sortDirection: 'asc', // or 'desc',
-    sortFieldName: 'id', // or '[another thead]'
+    // sortDirection: 'asc', // or 'desc',
+    // sortFieldName: 'id', // or '[another thead]'
     selectedPerson: null,
     currentPage: 0,
     searchTerm: '',
@@ -27,7 +27,7 @@ class App extends Component {
       return data;
     }
 
-    return data.filter(item => {
+    let searchedData = data.filter(item => {
       return (
         // поля, по которым search
         item['firstName'].toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -36,6 +36,12 @@ class App extends Component {
         item['phone'].toLowerCase().includes(searchTerm.toLowerCase())
       );
     });
+
+    if (!searchedData.length) {
+      searchedData = this.state.data;
+    }
+
+    return searchedData;
   }
 
   async fetchData(url) {
@@ -45,7 +51,7 @@ class App extends Component {
 
       this.setState({
         isLoading: false,
-        data: _.orderBy(data, this.state.sortFieldName, this.state.sortDirection),
+        data, // _.orderBy(data, this.state.sortFieldName, this.state.sortDirection),
       });
     } catch (error) {
       this.setState({ isError: true });
@@ -64,9 +70,9 @@ class App extends Component {
     this.setState({ searchTerm, currentPage: 0 });
   };
 
-  onTableSort = sortFieldName => {
+  onTableSort = (sortFieldName, sortDirection) => {
     const dataCopy = this.state.data.concat();
-    const sortDirection = this.state.sortDirection === 'asc' ? 'desc' : 'asc';
+    // const sortDirection = this.state.sortDirection === 'asc' ? 'desc' : 'asc';
     const sortedData = _.orderBy(dataCopy, sortFieldName, sortDirection);
 
     this.setState({
@@ -116,8 +122,8 @@ class App extends Component {
               onTableSort={this.onTableSort}
               onRowClick={this.onRowClick}
               data={visibleData}
-              sortDirection={this.state.sortDirection}
-              sortFieldName={this.state.sortFieldName}
+              // sortDirection={this.state.sortDirection}
+              // sortFieldName={this.state.sortFieldName}
             />
             {this.state.data.length > maxVisibleRowsCount && searchedData.length ? (
               <div className="d-flex justify-content-center">

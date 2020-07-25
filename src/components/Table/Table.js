@@ -36,7 +36,6 @@ class Table extends Component {
 
   render() {
     const { onTableSort, onRowClick, data } = this.props;
-
     const arrayOfKeys = Object.keys(this.state);
 
     return (

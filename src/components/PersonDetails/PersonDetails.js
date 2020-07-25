@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default ({ person }) => (
-  <div className="card mb-4 col-6 mx-auto">
+  <div className="card mb-4 col-8 mx-auto">
     <div className="card-body">
       <p className="lead">
         Выбран пользователь <b>{`${person.firstName} ${person.lastName}`}</b>

@@ -12,8 +12,6 @@ class App extends Component {
     isModeSelected: false,
     isLoading: false,
     data: [],
-    // sortDirection: 'asc', // or 'desc',
-    // sortFieldName: 'id', // or '[another thead]'
     selectedPerson: null,
     currentPage: 0,
     searchTerm: '',
@@ -27,7 +25,7 @@ class App extends Component {
       return data;
     }
 
-    let searchedData = data.filter(item => {
+    return data.filter(item => {
       return (
         // поля, по которым search
         item['firstName'].toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -36,12 +34,6 @@ class App extends Component {
         item['phone'].toLowerCase().includes(searchTerm.toLowerCase())
       );
     });
-
-    if (!searchedData.length) {
-      searchedData = this.state.data;
-    }
-
-    return searchedData;
   }
 
   async fetchData(url) {
@@ -51,7 +43,7 @@ class App extends Component {
 
       this.setState({
         isLoading: false,
-        data, // _.orderBy(data, this.state.sortFieldName, this.state.sortDirection),
+        data,
       });
     } catch (error) {
       this.setState({ isError: true });
@@ -72,13 +64,10 @@ class App extends Component {
 
   onTableSort = (sortFieldName, sortDirection) => {
     const dataCopy = this.state.data.concat();
-    // const sortDirection = this.state.sortDirection === 'asc' ? 'desc' : 'asc';
     const sortedData = _.orderBy(dataCopy, sortFieldName, sortDirection);
 
     this.setState({
       data: sortedData,
-      sortDirection,
-      sortFieldName,
     });
   };
 
@@ -94,7 +83,7 @@ class App extends Component {
     if (!this.state.isModeSelected) {
       return (
         <div style={{ textAlign: 'center' }} className="container">
-          <h3 className="mt-5">Выберите кол-во загружаемых строк таблицы:</h3>
+          <h3 className="mt-5">Выберите способ загрузки данных:</h3>
           <ModeButtons onModeSelect={this.onModeSelect} />
         </div>
       );
@@ -118,13 +107,7 @@ class App extends Component {
         ) : (
           <React.Fragment>
             <SearchPanel onPanelSearch={this.onPanelSearch} />
-            <Table
-              onTableSort={this.onTableSort}
-              onRowClick={this.onRowClick}
-              data={visibleData}
-              // sortDirection={this.state.sortDirection}
-              // sortFieldName={this.state.sortFieldName}
-            />
+            <Table onTableSort={this.onTableSort} onRowClick={this.onRowClick} data={visibleData} />
             {this.state.data.length > maxVisibleRowsCount && searchedData.length ? (
               <div className="d-flex justify-content-center">
                 <ReactPaginate

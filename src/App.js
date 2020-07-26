@@ -88,13 +88,14 @@ class App extends Component {
   };
 
   onAddNewRow = newPersonData => {
-    newPersonData.description = 'Неизвесно';
-    newPersonData.address = {};
-    newPersonData.address.streetAddress = 'Неизвесно';
-    newPersonData.address.city = 'Неизвесно';
-    newPersonData.address.state = 'Неизвесно';
-    newPersonData.address.zip = 'Неизвесно';
-    const newData = [newPersonData].concat(this.state.data);
+    const copyNewPersonData = { ...newPersonData };
+    copyNewPersonData.description = 'Неизвесно';
+    copyNewPersonData.address = {};
+    copyNewPersonData.address.streetAddress = 'Неизвесно';
+    copyNewPersonData.address.city = 'Неизвесно';
+    copyNewPersonData.address.state = 'Неизвесно';
+    copyNewPersonData.address.zip = 'Неизвесно';
+    const newData = [copyNewPersonData].concat(this.state.data);
     this.setState({ data: newData });
   };
 

@@ -25,3 +25,4 @@ yarn-error.log*
 #my
 .idea/
 .prettierrc
+src/__tests__/

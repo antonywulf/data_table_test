@@ -7,33 +7,45 @@ class AddNewRowForm extends Component {
     lastName: '',
     email: '',
     phone: '',
+    isValid: false,
+  };
+
+  checkValid = () => {
+    const copyState = { ...this.state };
+    delete copyState.isValid;
+
+    const values = Object.values(copyState);
+    let flag = true;
+    for (let item of values) {
+      if (!item) {
+        flag = false;
+        break;
+      }
+    }
+
+    this.setState({ isValid: flag });
   };
 
   onInputChange = event => {
-    this.setState({ [event.target.id]: event.target.value });
+    this.setState({ [event.target.id]: event.target.value }, this.checkValid);
   };
 
   onFormSubmit = event => {
     event.preventDefault();
-    this.props.onAddNewRow(this.state);
 
     const stateCopy = { ...this.state };
+    delete stateCopy.isValid;
+
+    this.props.onAddNewRow(stateCopy);
+
     for (let key in stateCopy) {
       stateCopy[key] = '';
     }
 
-    this.setState({ ...stateCopy });
+    this.setState({ ...stateCopy, isValid: false });
   };
 
   render() {
-    let isValid = true;
-    const valueArray = Object.values(this.state);
-    for (let item of valueArray) {
-      if (!item) {
-        isValid = false;
-      }
-    }
-
     return (
       <form onSubmit={this.onFormSubmit}>
         <table style={{ textAlign: 'center' }} className="table table-bordered">
@@ -97,7 +109,7 @@ class AddNewRowForm extends Component {
           </tbody>
         </table>
 
-        {isValid && (
+        {this.state.isValid && (
           <div className="d-flex justify-content-center mb-3">
             <button className="btn btn-outline-success">Добавить в таблицу</button>
           </div>

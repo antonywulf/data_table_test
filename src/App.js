@@ -6,6 +6,7 @@ import Table from './components/Table/Table';
 import PersonDetails from './components/PersonDetails/PersonDetails';
 import ModeButtons from './components/ModeButtons/ModeButtons';
 import SearchPanel from './components/SearchPanel/SearchPanel';
+import AddNewRowForm from './components/AddNewRowForm/AddNewRowForm';
 
 class App extends Component {
   state = {
@@ -16,6 +17,7 @@ class App extends Component {
     currentPage: 0,
     searchTerm: '',
     isError: false,
+    showForm: false,
   };
 
   getSearchedData() {
@@ -79,6 +81,23 @@ class App extends Component {
     this.setState({ currentPage: selected });
   };
 
+  onAddNewRowBtnClick = () => {
+    this.setState(prevState => {
+      return { showForm: !prevState.showForm };
+    });
+  };
+
+  onAddNewRow = newPersonData => {
+    newPersonData.description = 'Неизвесно';
+    newPersonData.address = {};
+    newPersonData.address.streetAddress = 'Неизвесно';
+    newPersonData.address.city = 'Неизвесно';
+    newPersonData.address.state = 'Неизвесно';
+    newPersonData.address.zip = 'Неизвесно';
+    const newData = [newPersonData].concat(this.state.data);
+    this.setState({ data: newData });
+  };
+
   render() {
     if (!this.state.isModeSelected) {
       return (
@@ -95,6 +114,8 @@ class App extends Component {
     const pageCount = Math.ceil(searchedData.length / maxVisibleRowsCount);
     const visibleData = _.chunk(searchedData, maxVisibleRowsCount)[this.state.currentPage];
 
+    const addNewRowBtnClass = this.state.showForm ? 'btn-outline-danger' : 'btn-outline-primary';
+
     return (
       <div className="container">
         {this.state.isError && (
@@ -107,6 +128,15 @@ class App extends Component {
         ) : (
           <React.Fragment>
             <SearchPanel onPanelSearch={this.onPanelSearch} />
+
+            <div className="d-flex justify-content-center mb-3">
+              <button onClick={this.onAddNewRowBtnClick} className={`btn ${addNewRowBtnClass}`}>
+                {this.state.showForm ? 'Отмена -' : 'Добавить +'}
+              </button>
+            </div>
+
+            {this.state.showForm && <AddNewRowForm onAddNewRow={this.onAddNewRow} />}
+
             <Table onTableSort={this.onTableSort} onRowClick={this.onRowClick} data={visibleData} />
             {this.state.data.length > maxVisibleRowsCount && searchedData.length ? (
               <div className="d-flex justify-content-center">

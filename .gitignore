@@ -26,3 +26,5 @@ yarn-error.log*
 .idea/
 .prettierrc
 src/__tests__/
+docker/
+.dockerignore

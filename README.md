@@ -1,5 +1,14 @@
 # React-приложение для отображения таблицы с данными
 
+Для запуска финального билда из Docker контейнера:
+
+```shell script
+docker pull antonywulf/data_table_test-docker
+docker run -p 8080:80 antonywulf/data_table_test-docker
+```
+
+Далее перейти на http://localhost:8080
+
 ## Задание
 
 Необходимо разработать React-приложение для отображения таблицы с данными.
